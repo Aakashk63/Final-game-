@@ -20,7 +20,12 @@ class GameController {
 
   setElementText(id, text) {
     const el = document.getElementById(id);
-    if (el) el.innerText = text;
+    if (!el) return;
+    if (typeof text === 'string' && text.includes('<')) {
+      el.innerHTML = text;
+    } else {
+      el.innerText = text;
+    }
   }
 
   init() {
@@ -34,7 +39,7 @@ class GameController {
 
     if (this.currentLevelIndex > 0 || this.completedLevelIds.size > 0) {
       const startBtn = document.getElementById('btn-start-journey');
-      if (startBtn) startBtn.innerText = "CONTINUE YOUR JOURNEY ➔";
+      if (startBtn) startBtn.innerText = "CONTINUE YOUR JOURNEY →";
     }
   }
 
@@ -137,7 +142,7 @@ class GameController {
     }
 
     // Non-jargon challenge topic pill
-    this.setElementText('challenge-topic-text', `🎯 Challenge: ${level.topicHint || level.title}`);
+    this.setElementText('challenge-topic-text', `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f39c12" stroke-width="2" class="rq-icon btn-icon"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="2" fill="#f39c12"/></svg> Challenge: ${level.topicHint || level.title}`);
 
     const progressFill = document.getElementById('progress-bar-fill');
     if (progressFill) progressFill.style.width = `${((level.id) / 25) * 100}%`;
@@ -154,21 +159,8 @@ class GameController {
     }
 
     if (faceEl) {
-      switch (state) {
-        case 'thinking':
-          faceEl.innerText = '🧐';
-          break;
-        case 'observing':
-          faceEl.innerText = '👀';
-          break;
-        case 'curious':
-          faceEl.innerText = '🤔';
-          break;
-        case 'celebrating':
-          faceEl.innerText = '🎉';
-          break;
-        default:
-          faceEl.innerText = '🧐';
+      if (window.Icons && typeof window.Icons.architectAvatar === 'function') {
+        faceEl.innerHTML = window.Icons.architectAvatar({ size: 44, mood: state });
       }
     }
 
@@ -212,7 +204,7 @@ class GameController {
         btn.innerHTML = `
           <div class="choice-letter">Option ${choice.id}</div>
           <div class="choice-text">"${choice.text}"</div>
-          <div class="choice-action">Test this solution ➔</div>
+          <div class="choice-action">Test this solution →</div>
         `;
         btn.onclick = () => this.makeChoice(choice);
         optionsContainer.appendChild(btn);
@@ -351,7 +343,7 @@ class GameController {
       const wh = choice.whatHappened || {};
       this.setElementText('wh-helped-text', wh.helped || "This took action on the immediate situation.");
       this.setElementText('wh-bottleneck-text', wh.bottleneck || choice.consequenceText);
-      this.setElementText('wh-reflection-prompt', `💡 Architect's Reflection: ${wh.reflectionQuestion || "Did this approach solve the underlying system bottleneck?"}`);
+      this.setElementText('wh-reflection-prompt', `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f39c12" stroke-width="2" class="rq-icon btn-icon"><path d="M9 18h6M10 21h4"/><path d="M9 14.5A7 7 0 1 1 15 14.5c-.8.8-1.5 2-1.5 3.5h-3c0-1.5-.7-2.7-1.5-3.5z" fill="#f39c12" fill-opacity="0.15"/></svg> Architect's Reflection: ${wh.reflectionQuestion || "Did this approach solve the underlying system bottleneck?"}`);
     }
   }
 
@@ -377,7 +369,7 @@ class GameController {
     // Reset advanced toggle
     const advPanel = document.getElementById('advanced-panel');
     if (advPanel) advPanel.classList.add('hidden');
-    this.setElementText('btn-advanced-toggle', "🔬 Show Advanced Tech Explanation");
+    this.setElementText('btn-advanced-toggle', `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rq-icon btn-icon"><path d="M6 18h12M10 21h4"/><circle cx="12" cy="7" r="3"/><path d="M12 10v4M9 14h6"/><path d="M7 18a5 5 0 0 1 10 0"/></svg> Show Advanced Tech Explanation`);
 
     // Award XP if first time
     if (!this.completedLevelIds.has(level.id)) {
@@ -502,9 +494,9 @@ class GameController {
       card.className = `codex-card ${isUnlocked ? 'unlocked' : 'locked'}`;
       card.innerHTML = `
         <div class="codex-num">Level ${lvl.id}</div>
-        <div class="codex-title">${isUnlocked ? lvl.discovery.badge : '🔒 Mystery Concept'}</div>
+        <div class="codex-title">${isUnlocked ? lvl.discovery.badge : '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rq-icon btn-icon"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Mystery Concept'}</div>
         <div class="codex-desc">${isUnlocked ? lvl.discovery.tagline : 'Complete this level challenge to unlock and discover this concept.'}</div>
-        ${isUnlocked ? `<div class="codex-analogy">💡 <em>"${lvl.discovery.analogy}"</em></div>` : ''}
+        ${isUnlocked ? `<div class="codex-analogy"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f39c12" stroke-width="2" class="rq-icon btn-icon"><path d="M9 18h6M10 21h4"/><path d="M9 14.5A7 7 0 1 1 15 14.5c-.8.8-1.5 2-1.5 3.5h-3c0-1.5-.7-2.7-1.5-3.5z" fill="#f39c12" fill-opacity="0.15"/></svg> <em>"${lvl.discovery.analogy}"</em></div>` : ''}
       `;
       list.appendChild(card);
     });
@@ -517,7 +509,19 @@ class GameController {
 
   toggleSound() {
     const isMuted = window.soundEngine.toggleMute();
-    document.getElementById('btn-sound-toggle').innerText = isMuted ? '🔇 Sound Off' : '🔊 Sound On';
+    document.getElementById('btn-sound-toggle').innerHTML = isMuted ? `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="rq-icon btn-icon"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg> Sound Off` : `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="rq-icon btn-icon"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg> Sound On`;
+  }
+
+  toggleAdvancedInfo() {
+    window.soundEngine?.click?.();
+    const panel = document.getElementById('advanced-panel');
+    const btn = document.getElementById('btn-advanced-toggle');
+    if (panel) {
+      const isHidden = panel.classList.toggle('hidden');
+      if (btn) {
+        btn.innerHTML = isHidden ? `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rq-icon btn-icon"><path d="M6 18h12M10 21h4"/><circle cx="12" cy="7" r="3"/><path d="M12 10v4M9 14h6"/><path d="M7 18a5 5 0 0 1 10 0"/></svg> Show Advanced Tech Explanation` : `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="rq-icon btn-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Hide Advanced Tech Explanation`;
+      }
+    }
   }
 }
 

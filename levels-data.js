@@ -6,14 +6,14 @@
  */
 
 const STAGES = [
-  { id: 1, name: "Stage 1: Make The App Work", icon: "🚀", levels: [1, 2, 3, 4] },
-  { id: 2, name: "Stage 2: Make It Fast", icon: "⚡", levels: [5, 6, 7] },
-  { id: 3, name: "Stage 3: Handle More People", icon: "📈", levels: [8, 9, 10] },
-  { id: 4, name: "Stage 4: Keep It Reliable", icon: "🛡️", levels: [11, 12, 13] },
-  { id: 5, name: "Stage 5: Handle Real-Time Data", icon: "🛰️", levels: [14, 15, 16, 17, 18] },
-  { id: 6, name: "Stage 6: Make It Smart", icon: "🧠", levels: [19, 20, 21, 22] },
-  { id: 7, name: "Stage 7: Make It Secure", icon: "🔐", levels: [23, 24] },
-  { id: 8, name: "Final: Become The System Architect", icon: "👑", levels: [25] }
+  { id: 1, name: "Stage 1: Make The App Work", icon: "", levels: [1, 2, 3, 4] },
+  { id: 2, name: "Stage 2: Make It Fast", icon: "", levels: [5, 6, 7] },
+  { id: 3, name: "Stage 3: Handle More People", icon: "", levels: [8, 9, 10] },
+  { id: 4, name: "Stage 4: Keep It Reliable", icon: "️", levels: [11, 12, 13] },
+  { id: 5, name: "Stage 5: Handle Real-Time Data", icon: "️", levels: [14, 15, 16, 17, 18] },
+  { id: 6, name: "Stage 6: Make It Smart", icon: "", levels: [19, 20, 21, 22] },
+  { id: 7, name: "Stage 7: Make It Secure", icon: "", levels: [23, 24] },
+  { id: 8, name: "Final: Become The System Architect", icon: "", levels: [25] }
 ];
 
 const LEVELS = [
@@ -88,65 +88,65 @@ const LEVELS = [
   {
     id: 2,
     stage: 1,
-    title: "One Person Can Only Do So Much",
-    time: "The Restaurant Analogy",
-    usersCount: "75,000 orders",
-    situation: "Imagine a small popular restaurant run by a single worker named Chef Raj. Chef Raj is trying to: 1) Take phone orders, 2) Cook the food, 3) Pack the boxes, and 4) Collect cash payments. Orders are backing up out the door!",
-    problem: "If cooking takes 2 minutes, but taking phone orders and collecting cash takes 8 minutes, making Chef Raj cook 10x faster still won't solve the long waiting line!",
-    simulationType: "pipeline_bottleneck",
+    title: "Who Is Booking The Ride?",
+    time: "8:00 AM Morning Commute",
+    usersCount: "120,000 riders",
+    situation: "A passenger opens the OLA app to book a morning cab to work. Before anyone can book a ride, request a driver, or charge a payment, the app must securely verify: Who is this user? Do they really own this account, or is someone pretending to be them?",
+    problem: "If anyone could type any phone number or name without proof of ownership, malicious impostors could book fake rides across the city and drain innocent users' balances!",
+    simulationType: "auth_simulation",
     choices: [
       {
         id: "A",
-        text: "Make Chef Raj cook faster (send him to culinary boot camp).",
+        text: "Let anyone type any mobile number and immediately enter the app with zero verification.",
         isOptimal: false,
-        consequenceText: "Chef Raj now chops onions in 10 seconds, but 20 customers are still trapped at the cashier counter waiting to pay! Total wait time barely improved.",
-        resultState: "bottleneck_remains",
-        statImpact: { speedup: "Negligible (1.1x)", satisfaction: "Low", bottleneck: "Cashier still blocked" },
+        consequenceText: "Disaster! Scammers typed strangers' phone numbers, booked fake rides across the city, and drained innocent riders' wallets. Drivers arrived at empty pickup spots and customer trust collapsed!",
+        resultState: "unauthenticated_chaos",
+        statImpact: { fraudRate: "85% Fraud", security: "Zero (Unsafe)", driverTrust: "Destroyed", access: "Chaotic" },
         whatHappened: {
-          helped: "Cooking speed became 10x faster (2 minutes ➔ 20 seconds).",
-          bottleneck: "Chef Raj still had to take phone orders, pack boxes, and collect cash alone. Those sequential steps stayed slow, and the customer queue grew longer and longer!",
-          reflectionQuestion: "Did speeding up the cooking step alone solve the whole restaurant's waiting line?"
+          helped: "Riders entered the app in 1 second without typing any codes.",
+          bottleneck: "Without identity verification, anyone could impersonate anyone! Ghost bookings surged, driver time was wasted, and financial fraud caused bank freezes.",
+          reflectionQuestion: "Can an app trust user identity without verifying that the user physically possesses the phone number right now?"
         }
       },
       {
         id: "B",
-        text: "Divide the work between multiple people: One takes orders, one cooks, one packs, one takes payments.",
+        text: "Verify the user's mobile number by sending a secure One-Time Password (OTP) via SMS, and issue a signed session token upon correct verification.",
         isOptimal: true,
-        consequenceText: "Outstanding! By identifying the true bottleneck and separating tasks into an organized pipeline, orders move continuously without anyone waiting for the other!",
-        resultState: "pipeline_success",
-        statImpact: { speedup: "Massive (4.5x)", satisfaction: "Very High", bottleneck: "Eliminated" },
-        successSummary: "By dividing the work into separate stations (Order, Cook, Pack, Pay), all 4 workers operate in parallel and orders flow without delay!"
+        consequenceText: "Outstanding! The user enters the 6-digit OTP received on their phone. The Authentication Server confirms their identity, generates a cryptographically signed session token, and unlocks the app safely!",
+        resultState: "auth_success",
+        statImpact: { fraudRate: "0.01% (Safe)", security: "Verified & Secure", driverTrust: "100% High", access: "Seamless" },
+        successSummary: "By verifying mobile ownership with an OTP, OLA securely authenticates the user, generates a session token, and prevents account takeover!"
       },
       {
         id: "C",
-        text: "Ask customers to wait outside in the street until Chef Raj catches up.",
+        text: "Require every passenger to physically visit the OLA city office with their passport and photo ID before they can book their first ride.",
         isOptimal: false,
-        consequenceText: "Angry customers wait in the heat, get fed up, and walk to the restaurant across the street! Orders drop to zero.",
-        resultState: "customers_leave",
-        statImpact: { speedup: "Zero", satisfaction: "Abysmal", bottleneck: "Customers left" },
+        consequenceText: "99.9% of passengers uninstalled the app! While physically secure, forcing in-person office visits created immense friction and killed user adoption.",
+        resultState: "high_friction_churn",
+        statImpact: { fraudRate: "0%", security: "Overkill", driverTrust: "High", access: "Zero Adoption" },
         whatHappened: {
-          helped: "Chef Raj was not rushed in the kitchen.",
-          bottleneck: "Customers got tired of waiting outside in the hot sun and walked across the street to a competitor. Revenue plummeted!",
-          reflectionQuestion: "Can asking customers to wait indefinitely fix a slow service bottleneck?"
+          helped: "Only people who visited a physical office were allowed to book.",
+          bottleneck: "Nobody will travel to an office just to download a taxi app. Passengers uninstalled the app and switched to walking or competitors.",
+          reflectionQuestion: "How do modern mobile platforms verify user identity remotely in seconds without hurting user experience?"
         }
       }
     ],
     discovery: {
-      badge: "Amdahl's Law & Bottlenecks",
-      tagline: "A chain is only as strong as its weakest link",
-      analogy: "Making one lane of a highway 100 mph faster doesn't help if every car still has to squeeze through a single 10-mph toll gate booth.",
+      badge: "Authentication (AuthN)",
+      tagline: "Proving you are who you claim to be",
+      analogy: "Like showing your boarding pass and photo ID at an airport security gate before boarding—the airline verifies your true identity before letting you into the terminal.",
       contrast: {
-        termA: "Local Optimization",
-        descA: "Speeding up a piece of the system that isn't the real bottleneck. It gives almost zero overall speedup.",
-        termB: "Amdahl's Law",
-        descB: "The maximum speedup of any system is strictly limited by the fraction of the system that cannot be run faster or in parallel."
+        termA: "Identification (Claiming)",
+        descA: "Entering your phone number or email. You are merely claiming: 'I am 98765 43210'. Anyone could type those same digits.",
+        termB: "Authentication (Proving)",
+        descB: "Entering the secret, temporary 6-digit OTP sent to that phone to PROVE you actually hold that phone right now."
       },
-      advancedInfo: "Amdahl's Law formula: Speedup = 1 / ((1 - p) + (p / s)), where p is the parallelizable fraction and s is the speedup factor. If 50% of your task is sequential (e.g. waiting on a slow database disk), infinite CPU cores will never make it more than 2x faster!",
+      advancedInfo: "Once the OTP is verified, the server issues a digitally signed JWT (JSON Web Token). The OLA app securely stores this token and includes it in the header of every future ride request, allowing instant access without re-entering an OTP every time.",
       teacherNotes: {
-        concept: "Amdahl's Law & System Bottleneck Identification",
-        experience: "Students learned why simply throwing raw CPU or speeding up one function fails if the sequential or slowest bottleneck is ignored.",
-        realWorld: "In ride-hailing, optimizing the frontend UI button animation won't fix ride confirmation if the database write lock takes 500ms.",
-        question: "When you have 3 separate servers from Level 1, who decides which incoming passenger goes to which server?"
+        concept: "Authentication & Identity Verification",
+        experience: "Students discovered why mobile apps require phone verification: to eliminate impersonation, fake bookings, and account takeover.",
+        realWorld: "OLA, Uber, and WhatsApp use SMS/WhatsApp OTPs and cryptographic JWT session tokens for frictionless, secure mobile authentication.",
+        question: "What is the key difference between Authentication ('Who are you?') and Authorization ('What are you allowed to do?')?"
       }
     }
   },
@@ -499,46 +499,65 @@ const LEVELS = [
   {
     id: 10,
     stage: 3,
-    title: "What If One Database Breaks?",
-    time: "2:00 AM Hardware Failure",
-    usersCount: "1.5 Million Users",
-    situation: "At 2:00 AM, a cooling fan melts and the primary database hard drive permanently dies with a loud snap! The screen turns pitch black. 1.5 million users cannot book rides, drivers cannot see active trips, and panic ensues.",
-    problem: "If you only have one copy of your data and that machine dies, your company is dead.",
-    simulationType: "replication_failover",
+    title: "Structured Fares vs Flexible Profiles",
+    time: "9:30 AM Post-Rush Accounting",
+    usersCount: "500,000 trips completed",
+    situation: "OLA stores two very different kinds of data: 1) Financial Ride Fares & Invoices (fixed columns: Trip ID, Rider ID, Fare, Tax, Payment Status) which must strictly balance down to the exact paise; and 2) Driver Profiles & Vehicle Features (some drivers have EV battery stats, pet-friendly tags, baby seats, or regional languages, changing frequently without a rigid schema).",
+    problem: "Using the wrong database model causes either broken financial ledgers or painful schema lockouts every time a driver adds a new feature tag!",
+    simulationType: "database_design_sim",
     choices: [
       {
         id: "A",
-        text: "Keep live, synchronized shadow copies (Replicas) on different racks. If the Leader dies, instantly promote a Replica to become the new Leader!",
-        isOptimal: true,
-        consequenceText: "High Availability Master-Replica Failover activated! The Primary died, but within 0.8 seconds, Replica 1 was automatically promoted to Leader. RideQuest didn't drop a single ride!",
-        resultState: "replication_success",
-        statImpact: { uptime: "99.999%", dataLoss: "0 records", failoverTime: "800ms" }
+        text: "Store everything into a single rigid SQL table, forcing all dynamic driver features into 100 empty columns (is_pet_friendly, is_ev, has_baby_seat, speaks_tamil, speaks_hindi...).",
+        isOptimal: false,
+        consequenceText: "Every time a driver adds a new perk or vehicle type, database engineers must run slow table alterations on 50 million rows, locking the database during rush hour!",
+        resultState: "rigid_sql_bloat",
+        statImpact: { schemaFlexibility: "Extremely Rigid", financialSafety: "Good", maintenanceCost: "High", queryLatency: "+45ms" },
+        whatHappened: {
+          helped: "Financial fares were structured.",
+          bottleneck: "Storing rapidly evolving driver vehicle attributes in rigid relational columns required constant database schema locks and bloated tables with thousands of NULLs.",
+          reflectionQuestion: "Should all data in a large platform be forced into a single rigid relational schema?"
+        }
       },
       {
         id: "B",
-        text: "Send a technician to the physical data center with a screwdriver to replace the hard drive tomorrow morning.",
+        text: "Polyglot Persistence: Use Relational SQL for strict financial transactions & invoices (ACID, fixed schema) and NoSQL Document store for flexible driver profiles & vehicle attributes (JSON, schema-free).",
+        isOptimal: true,
+        consequenceText: "Architectural masterpiece! Financial ledgers stay 100% strict and ACID-compliant in PostgreSQL/MySQL, while Driver Profiles and trip metadata evolve smoothly as JSON documents in MongoDB/DynamoDB!",
+        resultState: "polyglot_success",
+        statImpact: { schemaFlexibility: "Maximum", financialSafety: "100% ACID Guaranteed", maintenanceCost: "Low", queryLatency: "3ms (Optimal)" },
+        successSummary: "By pairing SQL for strict financial records with NoSQL for flexible vehicle/profile documents, OLA achieves perfect financial consistency AND high development agility!"
+      },
+      {
+        id: "C",
+        text: "Store all ride fares, wallet deductions, and bank settlements inside an unindexed plaintext text file on a shared network drive.",
         isOptimal: false,
-        consequenceText: "RideQuest is completely down for 7 hours. Competitors capture 90% of the market and RideQuest loses ₹50,00,000 in revenue.",
-        resultState: "downtime_disaster",
-        statImpact: { uptime: "Down", dataLoss: "Uncertain", recoveryTime: "7 Hours" }
+        consequenceText: "Two concurrent payments edited the text file at the exact same millisecond, corrupting all numbers! Millions of rupees were lost and audits failed completely.",
+        resultState: "corrupted_textfile",
+        statImpact: { schemaFlexibility: "Zero", financialSafety: "Catastrophic Failure", maintenanceCost: "Infinite", queryLatency: "Inf" },
+        whatHappened: {
+          helped: "No database software had to be installed.",
+          bottleneck: "Plain files lack concurrent write locks, transaction safety, and indexing. Corrupted balances destroyed the business.",
+          reflectionQuestion: "Why do financial systems require ACID-compliant relational databases?"
+        }
       }
     ],
     discovery: {
-      badge: "Database Replication",
-      tagline: "Always keep a live spare copy",
-      analogy: "Like a commercial airliner that has two independent engines and two co-pilots. If the captain feels sick, the first officer instantly takes the controls without the plane falling out of the sky.",
+      badge: "Database Design: SQL vs NoSQL",
+      tagline: "The right database for the right data",
+      analogy: "A bank passbook needs a strict printed ledger with exact columns (SQL), while a traveler's backpack holds flexible items of all shapes and sizes (NoSQL).",
       contrast: {
-        termA: "Primary-Replica (Master-Slave)",
-        descA: "All Writes go to the Primary leader. The Primary continuously replicates changes to Read Replicas. If the leader fails, a replica is elected.",
-        termB: "Multi-Leader Replication",
-        descB: "Multiple data centers accept writes simultaneously, useful for global apps across continents, but requires conflict resolution algorithms."
+        termA: "Relational (SQL)",
+        descA: "Strict tables, rows, columns, foreign keys. Perfect for payments, invoices, and accounting requiring 100% ACID guarantees.",
+        termB: "Non-Relational (NoSQL)",
+        descB: "Flexible JSON documents, key-values, or graphs. Perfect for evolving driver profiles, vehicle specs, and rapid feature changes."
       },
-      advancedInfo: "Read Replicas also give huge performance boosts! Since 90% of ride app queries are Reads (browsing map, checking driver rating), all Reads can be sent to Replicas while only Writes hit the Primary.",
+      advancedInfo: "Modern mega-apps use 'Polyglot Persistence'—PostgreSQL for customer billing and ride ledgers, MongoDB or DynamoDB for driver catalogs, Redis for caching, and Cassandra for GPS location time-series.",
       teacherNotes: {
-        concept: "Database Replication & Automatic Failover",
-        experience: "Students witnessed the catastrophic crash of a single database and designed hot standby replication.",
-        realWorld: "Cloud services like Amazon RDS and Google Cloud SQL manage Multi-AZ automated replication with synchronous write replication.",
-        question: "When Ride Service and Payment Service live on separate computers, how do they agree on booking a ride safely?"
+        concept: "SQL vs NoSQL Database Selection & Trade-offs",
+        experience: "Students learned that real apps do not choose 'SQL OR NoSQL' as an either/or fight; they combine SQL for transactions with NoSQL for schema flexibility.",
+        realWorld: "Uber & OLA use MySQL/Postgres for billing and payments, and NoSQL/Cassandra/DynamoDB for driver metadata and real-time state.",
+        question: "What would happen if you stored financial bank balances in a database that only offers eventual consistency?"
       }
     }
   },
@@ -643,46 +662,65 @@ const LEVELS = [
   {
     id: 13,
     stage: 4,
-    title: "Time Confusion",
-    time: "Physical Clock Drift",
-    usersCount: "3 Million Users",
-    situation: "Server A's clock says 10:01:05. Server B's clock drifted by 3 seconds and says 10:01:02. Passenger cancels ride on Server B, but driver accepted ride on Server A. The system looks at timestamps and says 'Driver accepted after passenger cancelled'... or did they?",
-    problem: "Physical quartz clocks on different computers can never be 100% perfectly synchronized. Relying on computer clock time causes dangerous bugs in distributed systems.",
-    simulationType: "vector_clock_sim",
+    title: "The Giant Monolith vs Independent Services",
+    time: "1:15 PM Heavy Rains & Peak Bookings",
+    usersCount: "250,000 active riders",
+    situation: "In OLA, a single ride involves multiple distinct jobs: 1) Ride Booking, 2) Driver Matching, 3) Payment Processing, and 4) Push Notifications / SMS. If all four jobs are packed into one giant single program (a Monolith), a bug or slow server in the Notification department could crash the entire app!",
+    problem: "A third-party SMS gateway becomes slow during torrential rain. Because everything is tied together in one giant app, the entire server runs out of threads and NO ONE in the city can book a cab!",
+    simulationType: "microservices_sim",
     choices: [
       {
         id: "A",
-        text: "Don't trust wall-clock seconds. Instead, use an incrementing sequence counter (Event 1 -> Event 2 -> Event 3) so causal order is crystal clear.",
-        isOptimal: true,
-        consequenceText: "Logical Clocks applied! Every message carries a sequence counter. The system definitively proves that the cancellation occurred before the driver acceptance regardless of drift!",
-        resultState: "logical_clocks_success",
-        statImpact: { causality: "100% Accurate", clockDriftVulnerability: "Zero", disputeResolution: "Flawless" }
+        text: "Keep everything in one giant Monolithic codebase and restart the entire application whenever notifications freeze.",
+        isOptimal: false,
+        consequenceText: "A slow SMS provider exhausted all server memory threads! Because it was all one monolith, the Ride Booking and Driver Matching engines died too. The entire city's transportation froze!",
+        resultState: "monolith_cascade_crash",
+        statImpact: { blastRadius: "100% System Down", deploySpeed: "Slow", faultIsolation: "Zero", uptime: "91.2%" },
+        whatHappened: {
+          helped: "Easy to write code in one single project initially.",
+          bottleneck: "Zero fault isolation! A minor bug in the notification code brought down the core booking and payment engines.",
+          reflectionQuestion: "Should a delay in sending a 'Trip Receipt' push notification prevent a passenger from booking a ride?"
+        }
       },
       {
         id: "B",
-        text: "Just assume all server clocks on the internet are identical to the millisecond.",
+        text: "Split the system into Microservices: Ride Booking, Driver Matching, Payment, and Notifications run as independent services communicating via APIs.",
+        isOptimal: true,
+        consequenceText: "Incredible resilience! When the SMS provider slowed down, ONLY the notification queue backed up slightly. Ride Booking, Driver Matching, and Payments kept operating at 100% speed with zero disruption!",
+        resultState: "microservices_success",
+        statImpact: { blastRadius: "Isolated to 1 Service", deploySpeed: "Independent & Fast", faultIsolation: "100% Protected", uptime: "99.99%" },
+        successSummary: "By decoupling into microservices (Booking, Matching, Payment, Notifications), failures are isolated and teams can deploy and scale each service independently!"
+      },
+      {
+        id: "C",
+        text: "Delete notifications, payments, and driver matching completely—only keep a static map on the screen.",
         isOptimal: false,
-        consequenceText: "Chaos! Clock drift causes phantom event reversals. Customers are charged cancellation penalties for rides they cancelled before matching.",
-        resultState: "clock_skew_chaos",
-        statImpact: { causality: "Inverted", clockDriftVulnerability: "Critical", disputeResolution: "Disastrous" }
+        consequenceText: "Passengers could see a map, but couldn't pay, couldn't match a driver, and couldn't get ride status! The app became completely useless.",
+        resultState: "app_useless",
+        statImpact: { blastRadius: "None", deploySpeed: "N/A", faultIsolation: "N/A", uptime: "Zero Functionality" },
+        whatHappened: {
+          helped: "Zero server crashes.",
+          bottleneck: "The core business functions were removed. An app that does nothing cannot crash, but it also has zero users!",
+          reflectionQuestion: "Can removing essential features be a valid architectural strategy for reliability?"
+        }
       }
     ],
     discovery: {
-      badge: "Time & Clocks",
-      tagline: "Order matters more than wall-clock seconds",
-      analogy: "Like a courtroom trial with witnesses from different time zones: The judge doesn't ask 'What did your watch say?'. The judge asks 'Did you see the car crash BEFORE or AFTER the red light turned on?'. Relative sequence matters!",
+      badge: "Microservices Architecture",
+      tagline: "Divide and conquer your backend",
+      analogy: "In a ship, watertight bulkheads divide the hull into separate compartments. If one compartment springs a leak, the doors seal and the rest of the ship stays afloat.",
       contrast: {
-        termA: "Physical Clocks vs Drift",
-        descA: "NTP (Network Time Protocol) tries to sync clocks, but network latency and quartz crystals cause clock skew of several milliseconds.",
-        termB: "Logical & Vector Clocks",
-        descB: "Lamport Timestamps and Vector Clocks track the 'Happened-Before' relationship (A -> B), guaranteeing correct causal ordering across distributed nodes."
+        termA: "Monolith",
+        descA: "All features (Auth, Booking, Payment, Notifications) live inside one single codebase and process. A memory leak or crash anywhere kills the entire company.",
+        termB: "Microservices",
+        descB: "Each business capability runs as an autonomous service with its own database and API. If Notifications slow down, Ride Booking never stops."
       },
-      advancedInfo: "Google solved physical clock uncertainty for Google Spanner using 'TrueTime'—installing GPS receivers and atomic clocks in every data center with bounded uncertainty intervals.",
+      advancedInfo: "Microservices communicate synchronously via gRPC/REST for real-time operations, and asynchronously via message brokers (Kafka/RabbitMQ) for decoupled tasks like notifications and analytics.",
       teacherNotes: {
-        concept: "Distributed Time, Clock Skew, and Lamport Logical Clocks",
-        experience: "Students discovered that computer clocks lie, and sequence counters are essential for causal ordering.",
-        realWorld: "Distributed databases like CockroachDB, Cassandra, and Spanner manage clock drift using hybrid logical clocks (HLC).",
-        question: "How should our mobile apps, driver phones, and internal servers talk to each other cleanly?"
+        concept: "Monolithic vs Microservices Architecture & Fault Isolation",
+        experience: "Students saw firsthand how blast radius containment prevents non-critical service failures from crashing core ride booking.",
+        realWorld: "Uber and OLA run hundreds of microservices (dispatch, location, pricing, payments, fraud) managed with Kubernetes.",
+        question: "What new challenges arise when you split one database into 20 microservice databases?"
       }
     }
   },
@@ -979,46 +1017,65 @@ const LEVELS = [
   {
     id: 20,
     stage: 6,
-    title: "Understanding The Business",
-    time: "Executive Business Analytics",
-    usersCount: "8 Million Users",
-    situation: "The Chief Operating Officer asks: 'Show me total driver earnings vs rider discounts, broken down by month, vehicle type (Auto, Bike, Sedan), and city for the last 4 years.' This requires crunching 500 million records across 8 different microservice databases.",
-    problem: "Operational databases are designed for one transaction at a time. Business analysis needs historical columnar data merged from across the whole company.",
-    simulationType: "data_warehouse_sim",
+    title: "The Passenger's Phone & The Cloud Brain",
+    time: "4:45 PM Peak Commute Preparation",
+    usersCount: "800,000 active devices",
+    situation: "A passenger opens the OLA app on their smartphone to book a cab to MG Road. The phone itself has limited battery, memory, and zero global knowledge of where 50,000 drivers across the city are located right now!",
+    problem: "How should work be divided between the passenger's mobile phone (the Client) and the centralized OLA data center computers (the Server)?",
+    simulationType: "client_server_sim",
     choices: [
       {
         id: "A",
-        text: "Build an ETL Data Pipeline: Extract data from all services, Clean/Transform it, and Load it into a Columnar Data Warehouse (Snowflake / BigQuery).",
-        isOptimal: true,
-        consequenceText: "Data Warehouse online! 500 million records aggregated across 4 years in just 3 seconds! The COO gets interactive visual dashboards without touching production databases!",
-        resultState: "warehouse_success",
-        statImpact: { reportQueryTime: "3s vs 4 hours", crossServiceInsights: "Unified", productionImpact: "Zero" }
+        text: "Fat Client: Download all 50,000 drivers' live GPS coordinates and the entire city's traffic graph onto the passenger's phone to calculate routes locally.",
+        isOptimal: false,
+        consequenceText: "The passenger's phone overheated, consumed 4 GB of cellular data in 30 seconds, froze, and ran out of battery! Budget phones cannot run citywide compute.",
+        resultState: "phone_battery_dead",
+        statImpact: { clientLoad: "100% (Crashing)", networkUsage: "4,200 MB / min", batteryDrain: "Severe", computeLocation: "All on Phone" },
+        whatHappened: {
+          helped: "The central server had to do zero work.",
+          bottleneck: "Mobile phones have limited CPU, RAM, and battery. Downloading massive global datasets to every phone exhausts mobile data and crashes the phone.",
+          reflectionQuestion: "Should a mobile client perform heavy global computation, or simply request answers from a powerful server?"
+        }
       },
       {
         id: "B",
-        text: "Write manual SQL join scripts directly against the live production payment and ride databases during the day.",
+        text: "Client-Server Architecture: The mobile app (Client) sends a lightweight Request (lat, lng), and the cloud server processes it and returns a clean JSON Response in 15ms.",
+        isOptimal: true,
+        consequenceText: "Flawless interaction! The mobile app remains smooth, uses only 2 KB of data, and displays nearby cabs instantly while powerful cloud servers do the heavy lifting!",
+        resultState: "client_server_success",
+        statImpact: { clientLoad: "Light & Fast (2% CPU)", networkUsage: "2 KB / req", batteryDrain: "Minimal", computeLocation: "Cloud Server" },
+        successSummary: "By using Client-Server architecture, the lightweight mobile app displays the UI and sends requests, while high-performance servers handle heavy search and matching!"
+      },
+      {
+        id: "C",
+        text: "No Client, No Server: Ask passengers to shout out their window looking for taxi drivers.",
         isOptimal: false,
-        consequenceText: "Production databases crash! Disk IO reaches 100%, real passengers cannot book rides, and the query runs out of memory anyway.",
-        resultState: "warehouse_direct_crash",
-        statImpact: { reportQueryTime: "Crashed", crossServiceInsights: "Failed", productionImpact: "Devastating" }
+        consequenceText: "Nobody could hear anything over the city traffic! Modern digital ride-hailing ceased to exist.",
+        resultState: "street_chaos",
+        statImpact: { clientLoad: "N/A", networkUsage: "0", batteryDrain: "N/A", computeLocation: "None" },
+        whatHappened: {
+          helped: "Zero technology needed.",
+          bottleneck: "Physical shouting doesn't scale across a city of 10 million people.",
+          reflectionQuestion: "Why did software and internet requests replace physical street hailing?"
+        }
       }
     ],
     discovery: {
-      badge: "Data Warehousing & Data Lakes",
-      tagline: "The memory and wisdom of the enterprise",
-      analogy: "Like accounting at a huge supermarket: Cashiers at checkout counters only record the item you are buying right now. At night, all sales logs are shipped to corporate headquarters to analyze which ice cream flavor sold best all summer.",
+      badge: "Client-Server Architecture",
+      tagline: "Request from the palm, compute in the cloud",
+      analogy: "Like a diner at a restaurant (the Client) looking at a menu and placing an order with the waiter, while the master kitchen (the Server) cooks the meal and serves the finished dish.",
       contrast: {
-        termA: "ETL vs ELT",
-        descA: "ETL (Extract, Transform, Load) cleans data before storing. ELT (Extract, Load, Transform) loads raw data directly into scalable cloud warehouses and transforms via SQL.",
-        termB: "Columnar Storage (Parquet, ClickHouse)",
-        descB: "Stores data by column rather than row. If you only want to average 'FareAmount', it only reads that one column, skipping names, coordinates, and notes!"
+        termA: "Client (Mobile Frontend)",
+        descA: "The user interface on the smartphone. Collects taps, renders maps, displays buttons, and sends HTTP/WebSocket requests.",
+        termB: "Server (Cloud Backend)",
+        descB: "Centralized computers in a data center. Stores the database, runs driver matching algorithms, authenticates users, and returns responses."
       },
-      advancedInfo: "Data Lakes (AWS S3 + Apache Iceberg / Delta Lake) store raw unstructured data, while Data Warehouses organize structured data for fast business queries.",
+      advancedInfo: "Client-Server separation enables independent evolution: OLA can upgrade its machine learning matching algorithm on the server without forcing 50 million users to download an app update from the App Store.",
       teacherNotes: {
-        concept: "Data Warehouses, Data Lakes, ETL Pipelines, and Columnar Storage",
-        experience: "Students separated real-time operational state from centralized historical intelligence.",
-        realWorld: "Uber, Lyft, and Grab use multi-petabyte data lakes and warehouses to optimize driver incentives and dynamic pricing algorithms.",
-        question: "Why should a passenger in Delhi download app graphics and map tiles from a server located 2,000 km away in Chennai?"
+        concept: "Client-Server Architecture & Request-Response Cycle",
+        experience: "Students visualized the fundamental contract of the internet: client requests data, server computes and responds.",
+        realWorld: "Every mobile interaction in OLA, Uber, Swiggy, and Instagram follows the Client-Server model over HTTPS.",
+        question: "What happens when the client loses network connectivity—how should the app handle offline states?"
       }
     }
   },
@@ -1230,7 +1287,7 @@ const LEVELS = [
 
 const TOPIC_HINTS = {
   1: "Handling Sudden Crowd Surges",
-  2: "Finding the System Bottleneck",
+  2: "Verifying User Identity (Authentication)",
   3: "Distributing Incoming Traffic",
   4: "Dealing with Network Partitions",
   5: "Guaranteeing Safe Payments",
@@ -1238,22 +1295,22 @@ const TOPIC_HINTS = {
   7: "Searching Without Scanning Everything",
   8: "Separating Conflicting Workloads",
   9: "Dividing an Enormous Database",
-  10: "Surviving Hardware Crashes",
+  10: "Choosing the Right Database (SQL vs NoSQL)",
   11: "Coordinating Independent Services",
   12: "Containing System Failures",
-  13: "Resolving Conflicting Event Order",
+  13: "Decoupling Independent Microservices",
   14: "Connecting Mobile Apps to Backend",
   15: "Shielding from Request Floods",
   16: "Live Two-Way Map Communication",
   17: "Buffering Traffic Spikes Safely",
   18: "Analyzing Live Moving Telemetry",
   19: "Searching Instant Landmark Names",
-  20: "Analyzing Long-Term Business Data",
+  20: "Request & Response (Client-Server Architecture)",
   21: "Serving Distant Geographic Cities",
   22: "Matching the Best Driver Intelligently",
   23: "Investigating Hidden Service Crashes",
   24: "Defending Against Rogue Actions",
-  25: "Synthesizing the Complete Architecture"
+  25: "Interactive OLA App Screen Builder"
 };
 
 LEVELS.forEach(lvl => {

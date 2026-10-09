@@ -4,6 +4,7 @@
   "description": "RideQuest - Become the Architect: An interactive educational system design game for first-year computer science students",
   "main": "server.js",
   "scripts": {
+    "build": "node -e \"const fs = require('fs'); const files = ['icons.js', 'sound.js', 'levels-data.js', 'diorama-engine.js', 'simulation.js', 'boss-canvas.js', 'game.js']; const out = files.map(f => fs.readFileSync(f, 'utf8')).join('\\n\\n'); fs.writeFileSync('bundle.js', out); console.log('Bundle built successfully');\"",
     "start": "node server.js"
   },
   "keywords": [
