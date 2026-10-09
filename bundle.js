@@ -1,3 +1,4 @@
+/* === FILE: icons.js === */
 /**
  * RideQuest - Professional SVG Icon & Illustration System
  * High-quality, consistent vector assets for System Design architectures,
@@ -721,6 +722,7 @@ var Icons;
 });
 
 
+/* === FILE: sound.js === */
 /**
  * RideQuest - Web Audio API Procedural Sound Engine
  * Zero external audio files required! 100% synthesized in-browser.
@@ -843,6 +845,7 @@ class SoundEngine {
 window.soundEngine = new SoundEngine();
 
 
+/* === FILE: levels-data.js === */
 /**
  * RideQuest - Levels Data
  * Contains all 24 pedagogical stages + Final Boss challenge.
@@ -2185,6 +2188,7 @@ window.GAME_LEVELS = LEVELS;
 
 
 
+/* === FILE: diorama-engine.js === */
 /**
  * RideQuest - Isometric Diorama Game Engine (AAA Visual Standard)
  * Senior Unreal Engine Game Design & Technical Art Direction
@@ -3680,6 +3684,7 @@ var DioramaEngine;
 });
 
 
+/* === FILE: simulation.js === */
 /**
  * RideQuest - Interactive Visual Simulation Engine
  * Renders scenario-based animated visuals across all 24 levels.
@@ -5795,6 +5800,7 @@ class SimulationEngine {
 window.SimulationEngine = SimulationEngine;
 
 
+/* === FILE: boss-canvas.js === */
 /**
  * RideQuest - Level 25 FINAL BOSS: OLA App Screen Builder & System Design Studio
  * Inspired by the 24-step OLA User Flow Reference.
@@ -6907,6 +6913,7 @@ class BossCanvasEngine {
 window.BossCanvasEngine = BossCanvasEngine;
 
 
+/* === FILE: game.js === */
 /**
  * RideQuest - Core Game State & Controller
  * Manages game loop, progression, pedagogical discovery popups, sound cues,
